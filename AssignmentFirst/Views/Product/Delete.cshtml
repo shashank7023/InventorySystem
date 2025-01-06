@@ -1,0 +1,66 @@
+﻿@model AssignmentFirst.Models.Product
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+            .form-container p {
+                font-size: 18px;
+            }
+
+            .form-container button {
+                padding: 10px 20px;
+                background-color: #f44336;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+                .form-container button:hover {
+                    background-color: #e53935;
+                }
+
+            .form-container .cancel {
+                background-color: #4CAF50;
+                text-decoration: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+    <h1>Delete Product</h1>
+
+    <div class="form-container">
+        <p>Are you sure you want to delete the product <strong>@Model.Name</strong>?</p>
+        <form asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit">Yes, Delete</button>
+        </form>
+        <a href="/Product/Index" class="cancel">Cancel</a>
+    </div>
+</body>
+</html>

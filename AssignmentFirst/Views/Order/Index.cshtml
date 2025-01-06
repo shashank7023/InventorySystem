@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "Order List";
+}
+
+<h2>Order List</h2>
+<a href="/Order/PlaceOrder" class="btn btn-primary mb-3">Place New Order</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Order Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.ProductId</td>
+                <td>@order.Quantity</td>
+                <td>@order.OrderDate.ToString("g")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,264 @@
+﻿@*  @model IEnumerable<AssignmentFirst.Models.Product>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        td {
+            color: #555;
+        }
+
+        .no-products {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+
+        .crud-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .crud-buttons a {
+                padding: 10px 20px;
+                text-decoration: none;
+                color: white;
+                background-color: #4CAF50;
+                border-radius: 5px;
+                margin: 0 10px;
+            }
+
+                .crud-buttons a.delete {
+                    background-color: #f44336;
+                }
+    </style>
+</head>
+<body>
+    <h1>Products</h1>
+
+    <div class="crud-buttons">
+        <a href="/Product/Create" class="create">Add New Product</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Price.ToString("C")</td>
+                        <td>@product.Stock</td>
+                        <td>
+                            <a href="/Product/Edit/@product.Id" class="edit">Edit</a>
+                            <a href="/Product/Delete/@product.Id" class="delete">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="no-products">No products found</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>
+ *@
+ @model IEnumerable<AssignmentFirst.Models.Product>
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        td {
+            color: #555;
+        }
+
+        .no-products {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+
+        .crud-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .selected {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+            .crud-buttons a {
+                padding: 10px 20px;
+                text-decoration: none;
+                color: white;
+                background-color: #4CAF50;
+                border-radius: 5px;
+                margin: 0 10px;
+            }
+
+                .crud-buttons a.delete {
+                    background-color: #f44336;
+                }
+
+        .filters {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+            .filters select, .filters input {
+                padding: 5px;
+                margin-right: 10px;
+                border-radius: 5px;
+            }
+    </style>
+</head>
+<body>
+    <h1>Products</h1>
+
+  
+    <div class="crud-buttons">
+        <a href="/Product/Create" class="create">Add New Product</a>
+    </div>
+
+    <!-- Product Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>
+                    <a href="@Url.Action("Index", "Product", new { sortBy = "price" })"
+                       class="@(ViewBag.SortBy == "price" ? "selected" : "")">Price</a>
+                </th>
+                <th>
+                    <a href="@Url.Action("Index", "Product", new { sortBy = "stock" })"
+                       class="@(ViewBag.SortBy == "stock" ? "selected" : "")">Stock</a>
+                </th>
+
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Price.ToString("C")</td>
+                        <td>@product.Stock</td>
+                        <td>
+                            <a href="/Product/Edit/@product.Id" class="edit">Edit</a>
+                            <a href="/Product/Delete/@product.Id" class="delete">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="no-products">No products found</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+
+</html>
